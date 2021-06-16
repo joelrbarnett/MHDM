@@ -18,16 +18,16 @@ noiseImages04=["barbara_noise_04.png","cameraman_noise_04.png",...
     "pollen_noise_04.png","mandril_noise_04.png","circles_noise_04.png",...
     "geometry_noise_04.png"];%for standard deviation 0.4
 
-for j=3:3%length(images) %loop over all images
+for j=1:length(images) %loop over all images
 close all;
     %filenames for saving
     filePrefix="additive/"+fileNames(j)+"_noise_refined/";
-    figPrefix=fileNames(j)+"04_";
+    figPrefix=fileNames(j)+"_";
     
     %read in image and noisy image
     F_orig=imread(char(folder_path+images(j))); 
     F_orig=double(F_orig);
-    F_data=imread(char(folder_path+noiseImages04(j)));
+    F_data=imread(char(folder_path+noiseImages(j)));
     F_data=double(F_data);
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
