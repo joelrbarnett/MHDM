@@ -12,4 +12,4 @@ They rely on the following functions
 - metrics.m
 - plotFigsOsher.m
 
-Images are stored in the folders under the "Additive" main folder. The subfolders describe the contents. 
+Images are stored in the folders under the "Additive" main folder. The subfolders describe the contents. All remaining files and folders are for the AA model with TV(log(u)) penalty term, which is incomplete at the moment. 
