@@ -2,7 +2,7 @@
 clear all
 
 %for saving
-filePrefix="../Test Images/";
+filePrefix="Test Images/";
 figPrefix=["barbara_noise_02.png","cameraman_noise_02.png",...
     "pollen_noise_02.png","mandril_noise_02.png","circles_noise_02.png",...
     "geometry_noise_02.png"];
@@ -14,7 +14,7 @@ figPrefix04=["barbara_noise_04.png","cameraman_noise_04.png",...
 images=["barbara.png","cameraman.tif","pollen.tif","mandril_gray.tif","circles.tif","geometry.tif"];
 imagesPNG=["barbara.png","cameraman.png","pollen.png","mandril.png","circles.png","geometry.png"];
 
-folder_path='../Test Images/';
+folder_path="Test Images/";
 for k= 1:length(images)
     %choose images
     

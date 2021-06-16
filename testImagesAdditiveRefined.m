@@ -8,7 +8,7 @@
 
 clear all
 %for saving
-folder_path="../Test Images/";
+folder_path="Test Images/";
 fileNames=["barbara","cameraman","pollen","mandril","circles","geometry"]; 
 images=["barbara.png","cameraman.tif","pollen.tif","mandril_gray.tif","circles.tif","geometry.tif"];
 noiseImages=["barbara_noise_02.png","cameraman_noise_02.png",...

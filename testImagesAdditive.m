@@ -7,7 +7,7 @@
 % sum xk=w0+...+wk.
 clear all
 %for saving
-folder_path="../Test Images/";
+folder_path="Test Images/";
 fileNames=["barbara","cameraman","pollen","mandril","circles","geometry"]; 
 images=["barbara.png","cameraman.tif","pollen.tif","mandril_gray.tif","circles.tif","geometry.tif"];
 noiseImages=["barbara_noise_02.png","cameraman_noise_02.png",...
@@ -80,7 +80,7 @@ for j=1:length(images) %loop over all images
     end
 
     %Plot 
-    saveFlag=1;
+    saveFlag=0;
     plotFigsOsher(F_orig, F_data, xkArray,params,filePrefix,figPrefix,saveFlag,tightFlag)
 
     %to get metrics for inspection
