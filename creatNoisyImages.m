@@ -15,11 +15,13 @@ images=["barbara.png","cameraman.tif","pollen.tif","mandril_gray.tif","circles.t
 imagesPNG=["barbara.png","cameraman.png","pollen.png","mandril.png","circles.png","geometry.png"];
 
 folder_path="Test Images/";
+save_path ="Test_Images_plus1/";
 for k= 1:length(images)
     %choose images
     
     F_orig=imread(char(folder_path+images(k))); 
-    %imwrite(F_orig,char(folder_path+imagesPNG(k)));%to convert tifs to png
+    F_orig=F_orig+1;
+    imwrite(F_orig,char(save_path+imagesPNG(k)));%to convert tifs to png
     F_orig=double(F_orig);
     %Form noisy image: 
     %%% Gamma noise %%%
@@ -28,7 +30,7 @@ for k= 1:length(images)
     
     F_data=F_orig.*GamNoise; %multiply noise into image
     F_data=uint8(F_data);
-    imwrite(F_data,char(folder_path+figPrefix(k)));
+    imwrite(F_data,char(save_path+figPrefix(k)));
 end
 
 

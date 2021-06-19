@@ -47,8 +47,8 @@ for n=1:maxIter
     
 % Compute phi update
     if n==1 %after first iteration, gradPhi is already updated 
-        DXCphi=dxc(phi); DYCphi=dyc(phi);
-        gradPhi = sqrt(epsilon^2 + DXCphi(:,2:end-1).^2+DYCphi(2:end-1,:).^2);
+        %DXCphi=dxc(phi); DYCphi=dyc(phi);
+        gradPhi = sqrt(epsilon^2 + DXFphi(:,2:end-1).^2+DYFphi(2:end-1,:).^2);
     end
     %S_n=integral( log(u)*phi)/integral(|gradPhi|)
     S_n=sum(sum(log(u(2:end-1,2:end-1)+epsilon).*phi(2:end-1,2:end-1)./gradPhi));

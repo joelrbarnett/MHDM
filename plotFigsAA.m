@@ -1,17 +1,17 @@
 
-function plotFigsOsher(F_orig, F_data, xkArray,params,filePrefix,figPrefix,saveFlag,tightFlag)
+function plotFigsAA(F_orig, F_data, xkArray,params,T,filePrefix,figPrefix,saveFlag,tightFlag)
 
 [m,n]=size(F_orig);
 numScales = length(xkArray(1,1,1,:));
 %tightFlag=[0,0]; %tightFlag(1)=indicates tight or not, tightFlag(2)= value of alp0
 if length(params)==6
     paramsCell=num2cell(params);
-    [maxIters, dt, epsilon, lambda0, q,alp0]=paramsCell{:};
+    [maxIters, dt, epsilon, lambda0, q, alp0]=paramsCell{:};
 else 
     paramsCell=num2cell(params);
     [maxIters, dt, epsilon, lambda0,q]=paramsCell{:};
 end
-[xk_f_norm2,rmse_final,stopCrit,snr]= metrics(F_orig+1,F_data+1,squeeze(xkArray)+1,numScales,tightFlag);
+[xk_f_norm2,rmse_final,stopCrit,snr]= metricsAA(F_orig,F_data,squeeze(xkArray),T,numScales,tightFlag);
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %find min error and stopping criteria, original RMSE
@@ -41,7 +41,7 @@ title('Original Image','FontSize',16)
 % 
 figure()
 image(F_data); axis image; axis off; colormap(gray(256));
-title(['Noisy Image. RMSE=',num2str(noisyRMSE),', SNR=',num2str(noisySNR)],'FontSize',16)
+title(['Degraded Image. RMSE=',num2str(noisyRMSE),', SNR=',num2str(noisySNR)],'FontSize',16)
 if saveFlag==1
     figName=filePrefix+figPrefix+"noisy.png";
     saveas(gcf,figName)
@@ -102,13 +102,13 @@ end
 figure('position',[100,100,1150,400])
 subplot(1,2,1)
 yyaxis left
-plot(1:numScales,rmse_final)
+semilogy(1:numScales,rmse_final)
 xlabel('Multiscales: k','FontSize',16)
 ylabel('RMSE','FontSize',16)
-title(['RMSE vs multiscale-decompositions, kMin=',num2str(mink)],'FontSize',16)
+title(['RMSE & SNR vs multiscale-decompositions, kMin=',num2str(mink)],'FontSize',16)
 yyaxis right
-plot(1:numScales, xk_f_norm2)
-ylabel('|xk-f|','FontSize',16)
+plot(1:numScales, snr)
+ylabel('SNR','FontSize',16)
 
 subplot(1,2,2)
 semilogy(1:numScales, stopCrit,1:numScales,ones(numScales,1))
@@ -118,7 +118,6 @@ if tightFlag(1)==1
 else
     title(['D(F_{data},Tx_k)^2/D(F_{data},Tu)^2, k^*=',num2str(k_star)],'FontSize',16)
 end
-
 if saveFlag==1
     figName=filePrefix+figPrefix+"metrics.png";
     saveas(gcf,figName)
