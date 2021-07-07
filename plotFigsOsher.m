@@ -11,7 +11,7 @@ else
     paramsCell=num2cell(params);
     [maxIters, dt, epsilon, lambda0,q]=paramsCell{:};
 end
-[xk_f_norm2,rmse_final,stopCrit,snr]= metrics(F_orig+1,F_data+1,squeeze(xkArray)+1,numScales,tightFlag);
+[xk_f_norm2,rmse_final,stopCrit,snr]= metrics(F_orig,F_data,squeeze(xkArray),numScales,tightFlag);
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %find min error and stopping criteria, original RMSE
@@ -19,7 +19,7 @@ end
 [minVal,mink]=min(rmse_final);
 %k_star = max_k D(F_data,Txk)^2/ D(F_data,Tu)^2 \geq tau, with tau>1.
 k_star=min(find((stopCrit<=1)==1));
-if ~isempty(k_star)
+if ~isempty(k_star)&&k_star>1
     k_star=k_star-1;
 end
 noisyRMSE=norm(F_orig-F_data,'fro')/sqrt(m*n); %original RMSE error
@@ -98,17 +98,17 @@ if saveFlag==1
     saveas(gcf,figName)
 end
 
-%Plot the RMSE and Total error, as well as the stopping criterion plot
+%Plot the RMSE and SNR, as well as the stopping criterion plot
 figure('position',[100,100,1150,400])
 subplot(1,2,1)
 yyaxis left
 plot(1:numScales,rmse_final)
 xlabel('Multiscales: k','FontSize',16)
 ylabel('RMSE','FontSize',16)
-title(['RMSE vs multiscale-decompositions, kMin=',num2str(mink)],'FontSize',16)
+title(['RMSE & SNR vs multiscale-decompositions, kMin=',num2str(mink)],'FontSize',16)
 yyaxis right
-plot(1:numScales, xk_f_norm2)
-ylabel('|xk-f|','FontSize',16)
+plot(1:numScales, snr)
+ylabel('SNR','FontSize',16)
 
 subplot(1,2,2)
 semilogy(1:numScales, stopCrit,1:numScales,ones(numScales,1))

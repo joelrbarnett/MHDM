@@ -10,36 +10,39 @@
 
 clear all
 %for saving and retrieving images 
-folder_path="Test Images/";
-fileNames=["barbara","cameraman","pollen","mandril","circles","geometry"]; 
-images=["barbara.png","cameraman.tif","pollen.tif","mandril_gray.tif","circles.tif","geometry.tif"];
+%for saving
+folder_path="Test_Images_plus1/"; %read images with no zero values
+fileNames=["barbara","cameraman","pollen","mandril","circles","geometry","disc_square"]; 
+images=["barbara.png","cameraman.tif","pollen.tif","mandril_gray.tif","circles.tif","geometry.tif","disc_square.png"];
+imagesPNG=["barbara.png","cameraman.png","pollen.png","mandril.png","circles.png","geometry.png","disc_square.png"];
+
 noiseImages=["barbara_noise_02.png","cameraman_noise_02.png",...
     "pollen_noise_02.png","mandril_noise_02.png","circles_noise_02.png",...
-    "geometry_noise_02.png"];% For noisy images
+    "geometry_noise_02.png"];
 noiseImages04=["barbara_noise_04.png","cameraman_noise_04.png",...
     "pollen_noise_04.png","mandril_noise_04.png","circles_noise_04.png",...
     "geometry_noise_04.png"];%for standard deviation 0.4
-%run algo on each image
-for j=1:length(images)
+%run for each image
+for j=1:length(images)-1
     close all;
     %filenames for saving
     filePrefix="additive/"+fileNames(j)+"_noise_tight/";
     figPrefix=fileNames(j)+"_";
     
     %read in image and noisy image
-    F_orig=imread(char(folder_path+images(j))); 
+    F_orig=imread(char(folder_path+imagesPNG(j))); 
     F_orig=double(F_orig);
-    F_data=imread(char(folder_path+noiseImages(j)));
-    F_data=double(F_data);
+%     F_data=imread(char(folder_path+noiseImages(j)));
+%     F_data=double(F_data);
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %setup parameters
     [n,m]=size(F_orig);
     numScales=10;
     %algo parameters
-    maxIters=100; %time iterations in solving for wk
+    maxIters=1000; %time iterations in solving for wk
     dt=0.01; %0.025; %timestep
-    epsilon= 0.02; %for regularizing TV
+    epsilon= 0.01; %for regularizing TV
     lambda0=0.01; %intial lambda
     alp0=1;
     q=3; %for update ratio for lambda: lambda_k = lambda0*q^k;
@@ -50,10 +53,11 @@ for j=1:length(images)
     % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % %Form noisy image: 
     % %%% Gamma noise %%%
-    % a=25; %gamma noise with mean 1, standard deviation 0.2. 
-    % GamNoise=gamrnd(a,1/a,size(F_orig));
-    % 
-    % F_data=F_orig.*GamNoise; %multiply noise into blurred image
+    rng(10); %set random number seed so we have consistent noise across runs
+    a=25; %gamma noise with mean 1, standard deviation 0.2. 
+    GamNoise=gamrnd(a,1/a,size(F_orig));
+    
+    F_data=F_orig.*GamNoise; %multiply noise into blurred image
     % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

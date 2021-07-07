@@ -7,7 +7,7 @@ f = double(f);
 Image_h=Image_h+2; Image_w=Image_w+2;
 %Initial condition
 w=zeros(Image_h,Image_w); %w is padded by 1 cell around boundary
-w(2:end-1,2:end-1)=log(f+1)-xk; %u=f./xk; %log(f/(u0*u1*u2...*uk)) = log(f) - log(u0)-...-log(uk) = log(f) - xk
+w(2:end-1,2:end-1)=log(f)-xk; %u=f./xk; %log(f/(u0*u1*u2...*uk)) = log(f) - log(u0)-...-log(uk) = log(f) - xk
 % u=ones(size(u0))*sum(sum(log(u0./exp(xk))))/(size(u0,1)*size(u0,2)); %initialization v2
 % u = ones(size(u0))*log(sum(sum(u0./exp(xk)))/(size(u0,1)*size(u0,2))); %initialization v3
 
