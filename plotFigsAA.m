@@ -19,7 +19,7 @@ end
 [minVal,mink]=min(rmse_final);
 %k_star = max_k D(F_data,Txk)^2/ D(F_data,Tu)^2 \geq tau, with tau>1.
 k_star=min(find((stopCrit<=1)==1));
-if ~isempty(k_star)
+if ~isempty(k_star)&&k_star>1
     k_star=k_star-1;
 end
 noisyRMSE=norm(F_orig-F_data,'fro')/sqrt(m*n); %original RMSE error
@@ -102,7 +102,7 @@ end
 figure('position',[100,100,1150,400])
 subplot(1,2,1)
 yyaxis left
-semilogy(1:numScales,rmse_final)
+plot(1:numScales,rmse_final)
 xlabel('Multiscales: k','FontSize',16)
 ylabel('RMSE','FontSize',16)
 title(['RMSE & SNR vs multiscale-decompositions, kMin=',num2str(mink)],'FontSize',16)
@@ -114,9 +114,9 @@ subplot(1,2,2)
 semilogy(1:numScales, stopCrit,1:numScales,ones(numScales,1))
 xlabel('Multiscales: k','FontSize',16)
 if tightFlag(1)==1
-    title(['(D(F_{data},Tx_k)^2+\alpha_kTV(log(x_k)))/D(F_{data},Tu)^2, k^*=',num2str(k_star)],'FontSize',16)    
+    title(['(D(F_{data},Tx_k)+\alpha_kTV(log(x_k)))/D(F_{data},Tu), k^*=',num2str(k_star)],'FontSize',16)    
 else
-    title(['D(F_{data},Tx_k)^2/D(F_{data},Tu)^2, k^*=',num2str(k_star)],'FontSize',16)
+    title(['D(F_{data},Tx_k)/D(F_{data},Tu), k^*=',num2str(k_star)],'FontSize',16)
 end
 if saveFlag==1
     figName=filePrefix+figPrefix+"metrics.png";

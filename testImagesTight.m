@@ -6,17 +6,18 @@
 clear all
 
 %for saving
-folder_path="Test_Images_plus1/";
-fileNames=["barbara","cameraman","pollen","mandril","circles","geometry"]; 
-images=["barbara.png","cameraman.tif","pollen.tif","mandril_gray.tif","circles.tif","geometry.tif"];
-imagesPNG=["barbara.png","cameraman.png","pollen.png","mandril.png","circles.png","geometry.png"];
+folder_path="Test_Images_plus1/"; %read images with no zero values
+fileNames=["barbara","cameraman","pollen","mandril","circles","geometry","disc_square"]; 
+images=["barbara.png","cameraman.tif","pollen.tif","mandril_gray.tif","circles.tif","geometry.tif","disc_square.png"];
+imagesPNG=["barbara.png","cameraman.png","pollen.png","mandril.png","circles.png","geometry.png","disc_square.png"];
+
 noiseImages=["barbara_noise_02.png","cameraman_noise_02.png",...
     "pollen_noise_02.png","mandril_noise_02.png","circles_noise_02.png",...
     "geometry_noise_02.png"];
 noiseImages04=["barbara_noise_04.png","cameraman_noise_04.png",...
     "pollen_noise_04.png","mandril_noise_04.png","circles_noise_04.png",...
     "geometry_noise_04.png"];%for standard deviation 0.4
-for j=1:length(images) %loop over all images
+for j=1:1%1:length(images) %loop over all images
     close all;
     %filenames for saving
     filePrefix="AA/"+fileNames(j)+"_noise_tight/";
@@ -32,9 +33,9 @@ for j=1:length(images) %loop over all images
     [n,m]=size(F_orig);
     numScales=10;
     %algo parameters
-    maxIters=100; %time iterations in solving for wk
+    maxIters=1000; %time iterations in solving for wk
     dt=0.01; %0.025; %timestep
-    epsilon= 0.05; %for regularizing TV
+    epsilon= 0.01; %for regularizing TV
     lambda0=0.01; %intial lambda
     alp0=1;
     q=3; %for update ratio for lambda: lambda_k = lambda0*q^k;
@@ -91,8 +92,8 @@ for j=1:length(images) %loop over all images
     end
 
     %plot and save
-    saveFlag=0;
+    saveFlag=1;
     plotFigsAA(F_orig, F_data, xkArray,params,T,filePrefix,figPrefix,saveFlag,tightFlag);
-    [xk_f_norm2,rmse_final,stopCrit,snr]= metricsAA(F_orig,F_data,squeeze(xkArray),T,numScales,tightFlag);
+    %[xk_f_norm2,rmse_final,stopCrit,snr]= metricsAA(F_orig,F_data,squeeze(xkArray),T,numScales,tightFlag);
 
 end

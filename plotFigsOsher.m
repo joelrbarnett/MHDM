@@ -114,9 +114,9 @@ subplot(1,2,2)
 semilogy(1:numScales, stopCrit,1:numScales,ones(numScales,1))
 xlabel('Multiscales: k','FontSize',16)
 if tightFlag(1)==1
-    title(['(D(F_{data},Tx_k)^2+\alpha_kTV(log(x_k)))/D(F_{data},Tu)^2, k^*=',num2str(k_star)],'FontSize',16)    
+    title(['(D(F_{data},Tx_k)+\alpha_kTV(log(x_k)))/D(F_{data},Tu), k^*=',num2str(k_star)],'FontSize',16)    
 else
-    title(['D(F_{data},Tx_k)^2/D(F_{data},Tu)^2, k^*=',num2str(k_star)],'FontSize',16)
+    title(['D(F_{data},Tx_k)/D(F_{data},Tu), k^*=',num2str(k_star)],'FontSize',16)
 end
 
 if saveFlag==1

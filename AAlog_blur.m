@@ -7,8 +7,9 @@ f = double(f);
 [Image_h,Image_w]=size(f);
 
 %initialization: u^0=f/Txk Here, I'm epsilon regularizing to prevent /0
-init=sum(sum(f./(epsilon+imfilter(xk,T,'symmetric','same'))))/(Image_h*Image_w); 
+init=sum(sum(f./(imfilter(xk,T,'symmetric','same'))))/(Image_h*Image_w); 
 u=init.*ones(size(f));
+
 for n=1:maxIter
         %These aren't square matrices
         DXF=dxf(u); %forward diff in x, for all y indexes
@@ -16,30 +17,30 @@ for n=1:maxIter
         DYF=dyf(u); %forward diff in y, for all x indexes
         DYB=dyb(u); %back diff in y, for all x indexes
 % EPSILON REGUALRIZATION,
-        c1= 1./sqrt(epsilon^2 + DXF(:,2:end-1).^2 + DYF(2:end-1,:).^2);
-        c2= 1./sqrt(epsilon^2 + DXB(:,2:end-1).^2 + DYF(1:end-2,:).^2);
-        c3= c1; % 1./sqrt(epsilon^2 + DXF(:,2:end-1).^2 + DYF(2:end-1,:).^2);
-        c4= 1./sqrt(epsilon^2 + DXF(:,1:end-2).^2 + DYB(2:end-1,:).^2);
+        d1= 1./sqrt(epsilon^2 + DXF(:,2:end-1).^2 + DYF(2:end-1,:).^2);
+        d2= 1./sqrt(epsilon^2 + DXB(:,2:end-1).^2 + DYF(1:end-2,:).^2);
+        d3= d1; % 1./sqrt(epsilon^2 + DXF(:,2:end-1).^2 + DYF(2:end-1,:).^2);
+        d4= 1./sqrt(epsilon^2 + DXF(:,1:end-2).^2 + DYB(2:end-1,:).^2);
 % for div(grad(u)/|u||grad u|), we need to divide the ci terms by |u(i,j)|
 % appropriately regularized
-        c1=c1./abs(sqrt(epsilon^2+u(2:end-1,2:end-1).^2)); %divide by |u(i,j)|
-        c2=c2./abs(sqrt(epsilon^2+u(1:end-2,2:end-1).^2)); %divide by |u(i-1,j)|
-        c3= c1; %c3./abs(sqrt(epsilon^2+u(2:end-1,2:end-1).^2)); %divide by |u(i,j)|
-        c4=c4./abs(sqrt(epsilon^2+u(2:end-1,1:end-2).^2)); %divide by |u(i,j-1)|
+        d1=d1./abs(u(2:end-1,2:end-1)); %divide by |u(i,j)|
+        d2=d2./abs(u(1:end-2,2:end-1)); %divide by |u(i-1,j)|
+        d3= d1; %d3./abs(u(2:end-1,2:end-1)); %divide by |u(i,j)|
+        d4=d4./abs(u(2:end-1,1:end-2)); %divide by |u(i,j-1)|
 % form |grad u|/u|u| term. Here, I tried centered differences for |grad(u)|
     DXC = dxc(u); DYC=dyc(u);
-    UabsU= (u(2:end-1,2:end-1)+epsilon).*sqrt(epsilon^2+u(2:end-1,2:end-1).^2);
+    UabsU= u(2:end-1,2:end-1).*abs(u(2:end-1,2:end-1));
     gradU_UabsU = sqrt(DXC(:,2:end-1).^2 + DYC(2:end-1,:).^2)./UabsU;
 
 % fidelity term
     Tuxk=imfilter(u.*xk,T,'symmetric','same');
-    fidelity = (1./(epsilon+Tuxk(2:end-1,2:end-1)) - f(2:end-1,2:end-1)./(epsilon+Tuxk(2:end-1,2:end-1).^2));
+    fidelity = (1./Tuxk(2:end-1,2:end-1) - f(2:end-1,2:end-1)./(Tuxk(2:end-1,2:end-1).^2));
     fidelity = imfilter(fidelity,T,'symmetric','same');
     fidelity = lambda.*fidelity.*xk(2:end-1,2:end-1);
 %update interior grid points            
-        u(2:end-1,2:end-1)=1./(1+dt.*(c1+c2+c3+c4)).*...
+        u(2:end-1,2:end-1)=1./(1+dt.*(d1+d2+d3+d4)).*...
             (u(2:end-1,2:end-1) - dt.*fidelity + dt.* gradU_UabsU+...
-            dt.*(c1.*u(3:end,2:end-1)+c2.*u(1:end-2,2:end-1)+c3.*u(2:end-1,3:end)+c4.*u(2:end-1,1:end-2)));
+            dt.*(d1.*u(3:end,2:end-1)+d2.*u(1:end-2,2:end-1)+d3.*u(2:end-1,3:end)+d4.*u(2:end-1,1:end-2)));
             
 %Update boundary conditions
     %Left and Right Boundary Conditions
@@ -83,12 +84,12 @@ function DYB=dyb(M)
     DYB=M(:,2:end-1) - M(:,1:end-2);
 end
 
-%Cetnered difference x and y derivatives at interior grid points
+%Centered difference x and y derivatives at interior grid points
 function DXC=dxc(M)
-    DXC = M(3:end,:) - M(1:end-2,:);
+    DXC = (M(3:end,:) - M(1:end-2,:))./2;
 end
 function DYC= dyc(M)
-    DYC = M(:,3:end) - M(:,1:end-2);
+    DYC = (M(:,3:end) - M(:,1:end-2))./2;
 end
 
 

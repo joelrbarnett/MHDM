@@ -23,7 +23,7 @@ noiseImages04=["barbara_noise_04.png","cameraman_noise_04.png",...
     "pollen_noise_04.png","mandril_noise_04.png","circles_noise_04.png",...
     "geometry_noise_04.png"];%for standard deviation 0.4
 %run for each image
-for j=1:length(images)-1
+for j=1:length(images)
     close all;
     %filenames for saving
     filePrefix="additive/"+fileNames(j)+"_noise_tight/";
