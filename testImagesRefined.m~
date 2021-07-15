@@ -16,7 +16,7 @@ noiseImages=["barbara_noise_02.png","cameraman_noise_02.png",...
 noiseImages04=["barbara_noise_04.png","cameraman_noise_04.png",...
     "pollen_noise_04.png","mandril_noise_04.png","circles_noise_04.png",...
     "geometry_noise_04.png"];%for standard deviation 0.4
-for j=1:1%1:length(images) %loop over all images
+for j=1:length(images) %loop over all images
     close all;
     %filenames for saving
     filePrefix="AA/"+fileNames(j)+"_noise_refined/";
@@ -32,7 +32,7 @@ for j=1:1%1:length(images) %loop over all images
     [n,m]=size(F_orig);
     numScales=10;
     %algo parameters
-    maxIters=1000; %time iterations in solving for wk
+    maxIters=100; %time iterations in solving for wk
     dt=0.01; %0.025; %timestep
     epsilon= 0.01; %for regularizing TV
     lambda0=0.01; %intial lambda
