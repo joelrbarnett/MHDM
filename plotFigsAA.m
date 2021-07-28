@@ -23,7 +23,7 @@ if ~isempty(k_star)&&k_star>1
     k_star=k_star-1;
 end
 noisyRMSE=norm(F_orig-F_data,'fro')/sqrt(m*n); %original RMSE error
-noisySNR=20.*log(norm(F_orig,'fro')/norm(F_orig-F_data,'fro'));
+noisySNR=20.*log10(norm(F_orig,'fro')/norm(F_orig-F_data,'fro'));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % maxIters=params(1); %time iterations in solving for wk
@@ -45,6 +45,7 @@ title(['Degraded Image. RMSE=',num2str(noisyRMSE),', SNR=',num2str(noisySNR)],'F
 if saveFlag==1
     figName=filePrefix+figPrefix+"noisy.png";
     saveas(gcf,figName)
+    imwrite(uint8(F_data),char(filePrefix+"clean_"+figPrefix+"noisy.png"))
 end
 %Restored image
 figure()
@@ -55,6 +56,7 @@ title([titleStr,subtitle],'FontSize',16)
 if saveFlag==1
     figName=filePrefix+figPrefix+"restored.png";
     saveas(gcf,figName)
+    imwrite(uint8(xkArray(:,:,1,mink)),char(filePrefix+"clean_"+figPrefix+"restored.png"))
 end
 %k_star image
 if (~isempty(k_star)) && (k_star~=mink)
@@ -66,6 +68,7 @@ if (~isempty(k_star)) && (k_star~=mink)
     if saveFlag==1
         figName=filePrefix+figPrefix+"restored_kstar.png";
         saveas(gcf,figName)
+        imwrite(uint8(xkArray(:,:,1,k_star)),char(filePrefix+"clean_"+figPrefix+"restored_kstar.png"))
     end
 end
 

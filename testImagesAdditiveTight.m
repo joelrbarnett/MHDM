@@ -94,6 +94,9 @@ for j=1:length(images)
 
     %Plot and save image
     saveFlag=1;
+    if saveFlag==1
+        save(filePrefix+figPrefix+"vars",'F_orig', 'F_data', 'xkArray','params','filePrefix','figPrefix','saveFlag','tightFlag', 'numScales')
+    end
     plotFigsOsher(F_orig, F_data, xkArray,params,filePrefix,figPrefix,saveFlag, tightFlag);
     %[xk_f_norm2,rmse_final,stopCrit,snr]= metrics(F_orig+1,F_data+1,squeeze(xkArray)+1,numScales,tightFlag);
 

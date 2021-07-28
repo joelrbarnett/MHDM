@@ -29,7 +29,7 @@ end
 
 %to compute SNR 
 function snr=SNR(im,ref)
-    snr= 20.*log(norm(ref,'fro')/norm(im-ref,'fro'));
+    snr= 20.*log10(norm(ref,'fro')/norm(im-ref,'fro'));
 end
 
 %function to compute the non-regularized total variation of image A

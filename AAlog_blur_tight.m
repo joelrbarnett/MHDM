@@ -2,7 +2,7 @@
 %Author: Joel Barnett
 
 function [u]=AAlog_blur_tight(f,xk,dt,lambda,ak,T,epsilon, maxIter)
-f = double(f);
+f = max(double(f),1);
 [Image_h,Image_w]=size(f);
 
 %initialization: u^0=f/Txk Here, I'm epsilon regularizing to prevent /0

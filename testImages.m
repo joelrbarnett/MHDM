@@ -93,6 +93,9 @@ for j=1:length(images) %loop over all images
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %plot and save
     saveFlag=1; %set to 1 to save, leave 0 to just display
+    if saveFlag==1
+        save(filePrefix+figPrefix+"vars",'F_orig', 'F_data', 'xkArray','params','T','filePrefix','figPrefix','saveFlag','tightFlag', 'numScales')
+    end
     plotFigsAA(F_orig, F_data, xkArray,params,T,filePrefix,figPrefix,saveFlag,tightFlag);
     [xk_f_norm2,rmse_final,stopCrit,snr]= metricsAA(F_orig,F_data,squeeze(xkArray),T,numScales,tightFlag);
 end

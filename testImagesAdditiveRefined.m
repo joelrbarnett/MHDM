@@ -91,6 +91,9 @@ close all;
     %
     %Plot & save images 
     saveFlag=1;
+    if saveFlag==1
+        save(filePrefix+figPrefix+"vars",'F_orig', 'F_data', 'xkArray','params','filePrefix','figPrefix','saveFlag','tightFlag', 'numScales')
+    end
     plotFigsOsher(F_orig, F_data, xkArray,params,filePrefix,figPrefix,saveFlag,tightFlag)
 
     %get metrics for comparison
