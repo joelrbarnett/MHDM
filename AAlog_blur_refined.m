@@ -53,9 +53,9 @@ for n=1:maxIter
     dz4= 1./(sqrt(epsilon^2 + DXFZ(:,1:end-2).^2 + DYBZ(2:end-1,:).^2).*abs(Z(2:end-1,1:end-2)));
 % form |grad u|/u|u| term. Here, I tried centered differences for |grad(u)|
     %Z terms
-    DXCZ=dxc(Z); DYCZ=dyc(Z);
+    %DXFZ=dxc(Z); DYFZ=dyc(Z);
     ZabsZ= Z(2:end-1,2:end-1).*abs(Z(2:end-1,2:end-1));
-    gradZ_ZabsZ = sqrt(DXCZ(:,2:end-1).^2 + DYCZ(2:end-1,:).^2)./ZabsZ;
+    gradZ_ZabsZ = sqrt(DXFZ(:,2:end-1).^2 + DYFZ(2:end-1,:).^2)./ZabsZ;
 
 % fidelity term
     Tuxk=imfilter(u.*xk,T,'symmetric','same');

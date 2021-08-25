@@ -17,7 +17,7 @@ noiseImages=["barbara_noise_02.png","cameraman_noise_02.png",...
 noiseImages04=["barbara_noise_04.png","cameraman_noise_04.png",...
     "pollen_noise_04.png","mandril_noise_04.png","circles_noise_04.png",...
     "geometry_noise_04.png"];%for standard deviation 0.4
-for j=3:3%1:length(images) %loop over all images
+for j=7:7%1:length(images) %loop over all images
     close all;
     %filenames for saving
     filePrefix="AA/"+fileNames(j)+"_noise_tight/";
@@ -92,7 +92,7 @@ for j=3:3%1:length(images) %loop over all images
     end
 
     %plot and save
-    saveFlag=0;
+    saveFlag=1;
     if saveFlag==1
         save(filePrefix+figPrefix+"vars",'F_orig', 'F_data', 'xkArray','params','T','filePrefix','figPrefix','saveFlag','tightFlag', 'numScales')
     end
